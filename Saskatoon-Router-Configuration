@@ -1,0 +1,145 @@
+2. Saskatoon-Router Configuration (RIP):
+
+Description: Similar to the "Regina-Router" configuration, we have to install HWIC2T (Cisco HWIC-2T is a 2-port serial WAN interface card) into Cisco 1941 router and 
+rename the router as "Saskatoon-Router". 
+"Saskatoon-Router" requires 4 networks (2 networks are associated with other 2 routers and  2 networks for LAN). Now, the router has 2 Gigabitethernet and 2 Serial ports. 
+GigabitEthernet0/0 will be connected with the LAN (194.168.1.0/24)
+GigabitEthernet0/1 will be connected with the LAN (200.168.1.0/24)
+Serial0/0/0 will be connected with the LAN (195.168.1.0/24)
+Serial0/0/1 will be connected with the LAN (193.168.1.0/24)
+
+Following is the router configuration commands for the "Saskatoon-Router":
+
+###################################################################
+
+Router>enable
+Router#configure terminal
+Router(config)#hostname Saskatoon-Router
+Saskatoon-Router(config)#interface Gigabitethernet0/0
+Saskatoon-Router(config-if)#ip address 194.168.1.1 255.255.255.0
+Saskatoon-Router(config-if)#no shutdown
+Saskatoon-Router(config-if)#exit
+Saskatoon-Router(config)#interface Gigabitethernet0/1
+Saskatoon-Router(config-if)#ip address 200.168.1.1 255.255.255.0
+Saskatoon-Router(config-if)#no shutdown
+Saskatoon-Router(config-if)#exit
+Saskatoon-Router(config)#interface Serial0/0/1
+Saskatoon-Router(config-if)#ip address 193.168.1.1 255.255.255.0
+Saskatoon-Router(config-if)#no shutdown
+Saskatoon-Router(config-if)#exit
+Saskatoon-Router(config)#interface Serial0/0/0
+Saskatoon-Router(config-if)#ip address 195.168.1.1 255.255.255.0
+Saskatoon-Router(config-if)#no shutdown
+Saskatoon-Router(config-if)#exit
+Saskatoon-Router(config)#router rip
+Saskatoon-Router(config-router)#version 2
+Saskatoon-Router(config-router)#network 194.168.1.0
+Saskatoon-Router(config-router)#network 200.168.1.0
+Saskatoon-Router(config-router)#network 193.168.1.0
+Saskatoon-Router(config-router)#network 195.168.1.0
+Saskatoon-Router(config-router)#exit
+Saskatoon-Router(config)#exit
+Saskatoon-Router#show running-config
+
+###################################################################
+
+Below is the output of "show running-config" command of "Sakatoon-Router":
+
+*******************************************************************
+Saskatoon-Router#show running-config
+Building configuration...
+
+Current configuration : 921 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Saskatoon-Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524T3ZU-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 194.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 200.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ ip address 195.168.1.1 255.255.255.0
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 193.168.1.1 255.255.255.0
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ network 193.168.1.0
+ network 194.168.1.0
+ network 195.168.1.0
+ network 200.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
+
+
