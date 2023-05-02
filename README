@@ -1,0 +1,19 @@
+1. Project Title: Implementing RIP protocol in a Cisco network
+
+2. Description:
+This project demonstrates how to implement RIP (Routing Information Protocol) in a Cisco network consisting of five routers and associated LANs. The routers are named as:
+ a. "Regina-Router" (LAN: 201.168.1.0/24),
+ b. "Saskatoon-Router" (LAN: 200.168.1.0/24), 
+ c. "Alberta-Router" (LAN: 192.168.1.0/24), 
+ d. "PrinceAlbert-Router" (LAN: 196.168.1.0/24), and 
+ e. "MooseJaw-Router" (LAN: 198.168.1.0/24)
+
+Each router is connected to a Cisco 2950-24 switch, and workstations (PC) have been added to each LAN. In addition, the routers are connected using serial connections (except for Saskatoon-Router and Alberta-Router, which use copper crossover connections).
+
+This project focuses on implementing RIP protocol in each router to enable communication between the workstations in different LANs. The RIP protocol is used to exchange routing information between routers, and to dynamically update routing tables based on changes in network topology.
+
+3. Usage:
+To run this project, we will need a network of five Cisco 1941 routers, connected to LANs with the specified network addresses, and connected to switches and workstations as described. You will also need to configure each router to use RIP protocol for routing.
+
+4. Credits:
+This project was developed by Imran Bin Jafar as a part of the Training on CCNA Prepartion by CSL Limited.
