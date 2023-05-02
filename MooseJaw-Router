@@ -1,0 +1,145 @@
+5. MooseJaw-Router Configuration (RIP):
+
+Description: Similar to the other 4 routers configuration, we have to install HWIC2T (Cisco HWIC-2T is a 2-port serial WAN interface card) into 
+Cisco 1941 router and  rename the router as "MooseJaw-Router". 
+"MooseJaw-Router" requires 3 networks (2 networks are associated with "Regina-Router" & "PrinceAlbert-Router" and  1 network for internal LAN).
+
+GigabitEthernet0/0 will be connected with the LAN (198.168.1.0/24)
+Serial0/0/0 will be connected with the LAN (199.168.1.0/24)
+Serial0/0/1 will be connected with the LAN (197.168.1.0/24)
+
+Following is the router configuration commands for the "MooseJaw-Router":
+
+###################################################################
+
+Router>enable
+Router#configure terminal
+Router(config)#hostname MooseJaw-Router
+MooseJaw-Router(config)#
+MooseJaw-Router(config)#interface Gigabitethernet0/0
+MooseJaw-Router(config-if)#ip address 198.168.1.1 255.255.255.0
+MooseJaw-Router(config-if)#no shutdown
+MooseJaw-Router(config-if)#exit
+MooseJaw-Router(config)#interface Serial0/0/0
+MooseJaw-Router(config-if)#ip address 199.168.1.1 255.255.255.0
+MooseJaw-Router(config-if)#no shutdown
+MooseJaw-Router(config-if)#exit
+MooseJaw-Router(config)#interface Serial0/0/1
+MooseJaw-Router(config-if)#ip address 197.168.1.1 255.255.255.0
+MooseJaw-Router(config-if)#no shutdown
+MooseJaw-Router(config-if)#exit
+MooseJaw-Router(config)#router rip
+MooseJaw-Router(config-router)#version 2
+MooseJaw-Router(config-router)#network 198.168.1.0
+MooseJaw-Router(config-router)#network 199.168.1.0
+MooseJaw-Router(config-router)#network 197.168.1.0
+MooseJaw-Router(config-router)#exit
+MooseJaw-Router(config)#exit
+MooseJaw-Router#show running-config
+
+###################################################################
+
+Below is the output of "show running-config" command of "MooseJaw-Router":
+
+*******************************************************************
+
+
+
+MooseJaw-Router#show running-config
+Building configuration...
+
+Current configuration : 886 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname MooseJaw-Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524PPZ1-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 198.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 199.168.1.1 255.255.255.0
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 197.168.1.1 255.255.255.0
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ network 197.168.1.0
+ network 198.168.1.0
+ network 199.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
+
+
+
