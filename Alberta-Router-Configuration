@@ -1,0 +1,135 @@
+3. Alberta-Router Configuration (RIP):
+
+Description: Similar to the "Regina-Router" and "Saskatoon-Router" configuration, we have to install HWIC2T (Cisco HWIC-2T is a 2-port serial WAN interface card) into 
+Cisco 1941 router and  rename the router as "Alberta-Router". 
+"Alberta-Router" requires 2 networks (1 network is associated with "Saskatoon-Router and  1 network for internal LAN).
+
+GigabitEthernet0/0 will be connected with the LAN (192.168.1.0/24)
+GigabitEthernet0/1 will be connected with the LAN (200.168.1.0/24)
+
+Following is the router configuration commands for the "Alberta-Router":
+
+###################################################################
+
+Router>enable
+Router#configure terminal
+Router(config)#hostname Alberta-Router
+Alberta-Router(config)#interface Gigabitethernet0/0
+Alberta-Router(config-if)#ip address 192.168.1.1 255.255.255.0
+Alberta-Router(config-if)#no shutdown
+Alberta-Router(config-if)#exit
+Alberta-Router(config)#interface Gigabitethernet0/1
+Alberta-Router(config-if)#ip address 200.168.1.2 255.255.255.0
+Alberta-Router(config-if)#no shutdown
+Alberta-Router(config-if)#exit
+Alberta-Router(config)#router rip
+Alberta-Router(config-router)#version 2
+Alberta-Router(config-router)#network 200.168.1.0
+Alberta-Router(config-router)#network 192.168.1.0
+Alberta-Router(config-router)#exit
+Alberta-Router(config)#exit
+Alberta-Router#show running-config
+
+###################################################################
+
+Below is the output of "show running-config" command of "Alberta-Router":
+
+*******************************************************************
+
+
+Alberta-Router#show running-config
+Building configuration...
+
+Current configuration : 851 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Alberta-Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524EIAR-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 192.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 200.168.1.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Serial0/0/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial0/0/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ network 192.168.1.0
+ network 200.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+
+
