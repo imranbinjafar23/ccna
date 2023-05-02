@@ -1,0 +1,137 @@
+1. Regina-Router Configuration (RIP):
+
+Description: We have to install HWIC2T (Cisco HWIC-2T is a 2-port serial WAN interface card) into Cisco 1941 router and rename the router as "Regina-Router". 
+"Regina-Router" needs 3 networks (2 networks are associated with other 2 routers and  1 network is for LAN). Now, the router has 2 Gigabitethernet and 2 Serial ports. 
+GigabitEthernet0/0 will be connected with the LAN (201.168.1.0/24) and Serial0/0/0 will be connected with Saskatoon-Router and Serial0/0/1 will be connected with 
+MooseJaw-Router.
+
+Following is the router configuration commands for the "Regina-Router":
+
+###################################################################
+
+Router>enable
+Router#configure terminal
+Router(config)#hostname Regina-Router
+Regina-Router(config)#interface Gigabitethernet0/0
+Regina-Router(config-if)#ip address 201.168.1.1 255.255.255.0
+Regina-Router(config-if)#no shutdown
+Regina-Router(config-if)#exit
+Regina-Router(config)#interface serial0/0/0
+Regina-Router(config-if)#ip address 193.168.1.1 255.255.255.0
+Regina-Router(config-if)#no shutdown
+Regina-Router(config)#interface serial0/0/1
+Regina-Router(config-if)#ip address 199.168.1.2 255.255.255.0
+Regina-Router(config-if)#no shutdown
+Regina-Router(config-if)#exit
+Regina-Router(config)#exit
+Regina-Router#show running-config
+Regina-Router#configure terminal
+Regina-Router(config)#router rip
+Regina-Router(config-router)#version 2
+Regina-Router(config-router)#network 201.168.1.0
+Regina-Router(config-router)#network 193.168.1.0
+Regina-Router(config-router)#network 199.168.1.0
+Regina-Router(config-router)#exit
+Regina-Router(config)#exit
+Regina-Router#show running-config
+
+###################################################################
+
+Below is the output of "show running-config" command of "Regina-Router":
+
+*******************************************************************
+Regina-Router#show running-config
+Building configuration...
+
+Current configuration : 884 bytes
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Regina-Router
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX15241B2S-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ ip address 201.168.1.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface Serial0/0/0
+ ip address 193.168.1.1 255.255.255.0
+ clock rate 2000000
+!
+interface Serial0/0/1
+ ip address 199.168.1.2 255.255.255.0
+ clock rate 2000000
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ network 193.168.1.0
+ network 199.168.1.0
+ network 201.168.1.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+end
+*******************************************************************
